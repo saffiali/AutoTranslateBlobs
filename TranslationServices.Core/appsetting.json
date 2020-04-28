@@ -1,0 +1,17 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FromLang": "",
+    "ToLang": "english",
+    "AzureTranslateKey": "c4c50e8f54af452cbfbf3d8e227f68d8",
+    "CategoryID": "",
+    "AppId": "",
+    "UseAdvancedSettings": "false",
+    "Adv_CategoryID": "",
+    "UseAzureGovernment": "false",
+    "UseCustomEndpoint": "false",
+    "CustomEndpointUrl": "",
+    "ShowExperimental": "false",
+    "SpeechAccountKey": ""
+  }
+}

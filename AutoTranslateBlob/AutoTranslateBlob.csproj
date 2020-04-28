@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
+	   <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.10" />
+	   <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.31" />
+	   <PackageReference Include="HtmlAgilityPack" Version="1.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TranslationServices.Core\TranslationServices.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DocumentTranslator.Tmx">
+      <HintPath>..\..\DocumentTranslator\TranslationServices.Core\bin\Debug\DocumentTranslator.Tmx.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling">
+      <HintPath>..\..\DocumentTranslator\TranslationServices.Core\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data">
+      <HintPath>..\..\DocumentTranslator\TranslationServices.Core\bin\Debug\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\DocumentTranslator\TranslationServices.Core\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>
