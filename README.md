@@ -11,7 +11,7 @@ You need to provide the following configuration or app settings either from the 
     "AzureWebJobsStorage": "",
     "FromLang": "English",
     "ToLang": "Arabic",
-    "AzureTranslateKey": "c4c50e8f54af452cbfbf3d8e227f68d8",
+    "AzureTranslateKey": "",
 ```
 # Credits
 I ported the "TranslationAssistant.TranslationServices.Core" from "DocumentTranslator" to dotnet standard to be able to use it in Functions runtime.
