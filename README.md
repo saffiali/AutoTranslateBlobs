@@ -1,5 +1,5 @@
 # AutoTranslateBlobs
-This is an Azure Function to Auto Translate HTML files once the arrive in a Blob container. Then store the translated one in a different container
+This is an Azure Function to Auto Translate HTML files once they arrive in an Azure Blob container. Then store the translated one in a different container.
 
 # Challenges
 - Maintain the structure of HTML document.
