@@ -3,7 +3,7 @@ This is an Azure Function to Auto Translate HTML files once they arrive in an Az
 
 # Challenges
 - Maintain the structure of HTML document.
-- Address the API Limit of 5000 charcter per call, so we need to slice the html content.
+- Address the API Limit of 5000 charcters per call, so we need to slice the html content.
 
 # Requirments
 You need to provide the following configuration or app settings either from the portal or by creating "local.settings.json" to test locally.
@@ -13,6 +13,10 @@ You need to provide the following configuration or app settings either from the 
     "ToLang": "Arabic",
     "AzureTranslateKey": "",
 ```
+# Known Limitations
+- There areas of improvment handling complex HTML format.
+- One Input language and one target language. There a posibility to fan-out to many target languages.
+
 # Credits
 I ported the "TranslationAssistant.TranslationServices.Core" from "DocumentTranslator" to dotnet standard to be able to use it in Functions runtime.
 
