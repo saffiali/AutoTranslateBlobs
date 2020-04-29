@@ -14,7 +14,7 @@ You need to provide the following configuration or app settings either from the 
     "AzureTranslateKey": "",
 ```
 # Known Limitations
-- There areas of improvment handling complex HTML format.
+- Areas of improvments for handling complex HTML documents.
 - One Input language and one target language. There a posibility to fan-out to many target languages.
 
 # Credits
