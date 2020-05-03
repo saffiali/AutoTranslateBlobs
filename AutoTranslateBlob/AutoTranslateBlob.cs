@@ -22,9 +22,9 @@ using HtmlAgilityPack;
 using TranslationAssistant.TranslationServices.Core;
 using TranslationAssistant.Business;
 
-namespace Saffi.Translate.HTML
+namespace Saffi.Translate
 {
-    public static class AutoTranslateHTMLBlob
+    public static class AutoTranslateBlob
     {
         /// <summary>
         /// //Translate source html and Save it with the same name
@@ -34,7 +34,7 @@ namespace Saffi.Translate.HTML
         /// <param name="name"></param>
         /// <param name="log"></param>
         /// <returns></returns>
-        [FunctionName("AutoTranslateHTMLBlob")]
+        [FunctionName("AutoTranslateBlob")]
         public static async Task Run(
             [BlobTrigger("to-be-translated/{name}", Connection = "AzureWebJobsStorage")]Stream InputStream,
             [Blob("translated/{name}", FileAccess.Write, Connection = "AzureWebJobsStorage")] TextWriter OutputText, string name, ILogger log)
@@ -42,7 +42,7 @@ namespace Saffi.Translate.HTML
             
             try
             {
-                log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {InputStream.Length} Bytes");
+                log.LogInformation($"AutoTranslateBlob function trigger for blob\n Name:{name} \n Size: {InputStream.Length} Bytes");
 
                 OutputText.WriteLine("");
 
@@ -51,21 +51,37 @@ namespace Saffi.Translate.HTML
                 string FromLang = GetEnvironmentVariable("FromLang");
                 string AzureKey = GetEnvironmentVariable("AzureTranslateKey");
                 string CategoryID = GetEnvironmentVariable("CategoryID");
+                string FileExtension = name.Split('.').Last();
 
                 TranslationServiceFacade.LoadCredentials(AzureKey, CategoryID);
                 TranslationServiceFacade.Initialize(true);
 
+               
                 //ReadFile
-                string HtmlContent = await new StreamReader(InputStream).ReadToEndAsync();
+                string ContentToBeTranslated = await new StreamReader(InputStream).ReadToEndAsync();
+                string TranslatedContent = string.Empty;
 
                 //Translate
-                string TranslatedContent = HTMLTranslationManager.DoContentTranslation(HtmlContent, FromLang, ToLang);
-
-                //Save to Blob
-                await OutputText.WriteAsync(TranslatedContent);
-                //await OutputText.WriteAsync(TranslatedContent);
+                switch (FileExtension)
+                {
+                    case ("html"):
+                     TranslatedContent = HTMLTranslationManager.DoContentTranslation(ContentToBeTranslated, FromLang, ToLang);
+                        break;
+                    case ("htm"):
+                        TranslatedContent = HTMLTranslationManager.DoContentTranslation(ContentToBeTranslated, FromLang, ToLang);
+                        break;
+                    case "txt":
+                        TranslatedContent = DocumentTranslationManager.ProcessTextDocument(ContentToBeTranslated,FromLang,ToLang);
+                        break;
+                    default:
+                        break;
+                }
                 
-                log.LogInformation("Called external Method: HTMLTranslationManager.DoContentTranslation()");
+                //Save to Blob
+                if (TranslatedContent != String.Empty)
+                {
+                    await OutputText.WriteAsync(TranslatedContent);
+                }
             }
             catch (Exception e)
             {
@@ -81,8 +97,6 @@ namespace Saffi.Translate.HTML
         #region utilities
         public static string GetEnvironmentVariable(string name)
         {
-            //return name + ": " +
-            //    System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
             return System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
         }
 
