@@ -1,9 +1,9 @@
 # AutoTranslateBlobs
-This is an Azure Function to Auto Translate HTML files once they arrive in an Azure Blob container. Then store the translated one in a different container.
+This is an Azure Function to Auto Translate HTML and Text files once they arrive in an Azure Blob container. Then store the translated one in a different container.
 
 # Challenges
 - Maintain the structure of HTML document.
-- Address the API Limit of 5000 charcters per call, so we need to slice the html content.
+- Address the API Limit of 5000 charcters per call, so we need to slice the content.
 
 # Requirments
 You need to provide the following configuration or app settings either from the portal or by creating "local.settings.json" to test locally.
