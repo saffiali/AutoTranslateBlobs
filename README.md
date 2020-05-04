@@ -5,6 +5,11 @@ This is an Azure Function to Auto Translate HTML and Text files once they arrive
   <img src="AutoTranslateBlobs.png">
 </p>
 
+# Supported formats
+- HTML
+- Text file
+- Word file (soon)
+
 # Challenges
 - Maintain the structure of HTML document.
 - Address the API Limit of 5000 charcters per call, so we need to slice the content.
