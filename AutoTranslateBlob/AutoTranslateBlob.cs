@@ -38,6 +38,7 @@ namespace Saffi.Translate
         public static async Task Run(
             [BlobTrigger("to-be-translated/{name}", Connection = "AzureWebJobsStorage")]Stream InputStream,
             [Blob("translated/{name}", FileAccess.Write, Connection = "AzureWebJobsStorage")] TextWriter OutputText, string name, ILogger log)
+        
         {
             
             try
@@ -51,7 +52,7 @@ namespace Saffi.Translate
                 string FromLang = GetEnvironmentVariable("FromLang");
                 string AzureKey = GetEnvironmentVariable("AzureTranslateKey");
                 string CategoryID = GetEnvironmentVariable("CategoryID");
-                string FileExtension = name.Split('.').Last();
+                string FileExtension = name.Split('.').Last().ToLower();
 
                 TranslationServiceFacade.LoadCredentials(AzureKey, CategoryID);
                 TranslationServiceFacade.Initialize(true);
