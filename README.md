@@ -6,9 +6,9 @@ This is an Azure Function to Auto Translate HTML and Text files once they arrive
 </p>
 
 # Supported formats
-- HTML
-- Text file
-- Word file (soon)
+- HTML files.
+- Text files.
+- Word files (soon).
 
 # Challenges
 - Maintain the structure of HTML document.
