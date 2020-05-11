@@ -23,8 +23,8 @@ You need to provide the following configuration or app settings either from the 
     "AzureTranslateKey": "",
 ```
 # Known Limitations
-- Areas of improvments for handling complex HTML documents.
-- One Input language and one target language. There a posibility to fan-out to many target languages.
+- Areas of improvments for handling complex and sizable HTML documents.
+- One target language. There a posibility to fan-out to many target languages.
 
 # Credits
 I ported the "TranslationAssistant.TranslationServices.Core" from "DocumentTranslator" to dotnet standard to be able to use it in Functions runtime.
