@@ -1,4 +1,4 @@
-# AutoTranslateBlobs
+# Auto Translate Azure Blobs
 This is an Azure Function to Auto Translate HTML and Text files once they arrive in an Azure Blob container. Then store the translated one in a different container.
 
 <p align="center">
@@ -18,7 +18,7 @@ This is an Azure Function to Auto Translate HTML and Text files once they arrive
 You need to provide the following configuration or app settings either from the portal or by creating "local.settings.json" to test locally.
 ```
     "AzureWebJobsStorage": "",
-    "FromLang": "English",
+    "FromLang": "Auto-Detect",
     "ToLang": "Arabic",
     "AzureTranslateKey": "",
 ```
