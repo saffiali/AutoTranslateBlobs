@@ -24,7 +24,7 @@ You need to provide the following configuration or app settings either from the 
 ```
 # Known Limitations
 - Areas of improvments for handling complex and sizable HTML documents.
-- One target language. There a posibility to fan-out to many target languages.
+- One target language. There is a posibility to fan-out to many target languages.
 
 # Credits
 I ported the "TranslationAssistant.TranslationServices.Core" from "DocumentTranslator" to dotnet standard to be able to use it in Functions runtime.
