@@ -71,21 +71,32 @@ namespace TranslationAssistant.Business
                     List<HtmlNode> nodes = new List<HtmlNode>();
                     AddNodes(body.FirstChild, ref nodes);
 
-                    Parallel.ForEach(nodes, (node) =>
+                    try
+                    {
+                        //We might need to Rewite this using DurableFunctions
+
+                        //Parallel.ForEach(nodes, (node) =>
+                        //{
+                        //    node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
+                        //});
+                        foreach (var node in nodes)
                         {
                             node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
-                        });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
+
+
                 }
             }
-            //htmlDoc.Save("", Encoding.UTF8);
-            try 
-	        {	        
+
+            if (!string.IsNullOrEmpty(htmlDoc.DocumentNode.OuterHtml))
                 return htmlDoc.DocumentNode.OuterHtml;
-	        }
-	        catch (Exception)
-	        {
+            else
                 return string.Empty;
-	        }
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace Saffi.Translate
     public static class AutoTranslateBlob
     {
         /// <summary>
-        /// //Translate source html and Save it with the same name
+        /// //Translate HTML and Text documents. Then save it in a different container.
         /// </summary>
         /// <param name="InputStream"></param>
         /// <param name="OutputText"></param>
@@ -40,14 +40,18 @@ namespace Saffi.Translate
             [Blob("translated/{name}", FileAccess.Write, Connection = "AzureWebJobsStorage")] TextWriter OutputText, string name, ILogger log)
         
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             
+            string TranslatedContent = string.Empty;
             try
             {
-                log.LogInformation($"AutoTranslateBlob function trigger for blob\n Name:{name} \n Size: {InputStream.Length} Bytes");
+                log.LogInformation($"STARTED: AutoTranslateBlob function for blob Name:{name} of Size: {InputStream.Length} Bytes");
+
+               
 
                 OutputText.WriteLine("");
 
-                //GetTargetLanguage
+                //Get Environment Variables
                 string ToLang = GetEnvironmentVariable("ToLang");
                 string FromLang = GetEnvironmentVariable("FromLang");
                 string AzureKey = GetEnvironmentVariable("AzureTranslateKey");
@@ -57,16 +61,14 @@ namespace Saffi.Translate
                 TranslationServiceFacade.LoadCredentials(AzureKey, CategoryID);
                 TranslationServiceFacade.Initialize(true);
 
-               
                 //ReadFile
                 string ContentToBeTranslated = await new StreamReader(InputStream).ReadToEndAsync();
-                string TranslatedContent = string.Empty;
-
+               
                 //Translate
                 switch (FileExtension)
                 {
                     case ("html"):
-                     TranslatedContent = HTMLTranslationManager.DoContentTranslation(ContentToBeTranslated, FromLang, ToLang);
+                        TranslatedContent = HTMLTranslationManager.DoContentTranslation(ContentToBeTranslated, FromLang, ToLang);
                         break;
                     case ("htm"):
                         TranslatedContent = HTMLTranslationManager.DoContentTranslation(ContentToBeTranslated, FromLang, ToLang);
@@ -78,11 +80,7 @@ namespace Saffi.Translate
                         break;
                 }
                 
-                //Save to Blob
-                if (TranslatedContent != String.Empty)
-                {
-                    await OutputText.WriteAsync(TranslatedContent);
-                }
+                
             }
             catch (Exception e)
             {
@@ -90,7 +88,15 @@ namespace Saffi.Translate
             }
             finally 
             {
+                //Save to Blob
+                await OutputText.WriteAsync(TranslatedContent);
                 OutputText.Close();
+
+                
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                log.LogInformation($"FINISHED: AutoTranslateBlob function for blob:{name} \n ExecutionTime: {Convert.ToString(elapsedMs)} Ms.");
+
             }
 
         }
