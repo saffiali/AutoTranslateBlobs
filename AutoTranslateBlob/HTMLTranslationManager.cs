@@ -74,11 +74,6 @@ namespace TranslationAssistant.Business
                     try
                     {
                         //We might need to Rewite this using DurableFunctions
-
-                        //Parallel.ForEach(nodes, (node) =>
-                        //{
-                        //    node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
-                        //});
                         foreach (var node in nodes)
                         {
                             node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
@@ -88,8 +83,6 @@ namespace TranslationAssistant.Business
                     {
                         
                     }
-
-
                 }
             }
 
@@ -106,22 +99,31 @@ namespace TranslationAssistant.Business
         /// <param name="nodes">Reference to the node list</param>
         private static void AddNodes(HtmlNode rootnode, ref List<HtmlNode> nodes)
         {
-            string[] DNTList = { "script", "#text", "code", "col", "colgroup", "embed", "em", "#comment", "image", "map", "media", "meta", "source", "xml"};  //DNT - Do Not Translate - these nodes are skipped.
-            HtmlNode child = rootnode;
-            while (child != rootnode.LastChild)
+            try
             {
-                if (!DNTList.Contains(child.Name.ToLowerInvariant())) {
-                    if (child.InnerHtml.Length > maxRequestSize)
+                string[] DNTList = { "script", "#text", "code", "col", "colgroup", "embed", "em", "#comment", "image", "map", "media", "meta", "source", "xml" };  //DNT - Do Not Translate - these nodes are skipped.
+                HtmlNode child = rootnode;
+                while (child != null && child != rootnode.LastChild)
+                {
+                    if (!DNTList.Contains(child.Name.ToLowerInvariant()))
                     {
-                        AddNodes(child.FirstChild, ref nodes);
+                        if (child.InnerHtml.Length > maxRequestSize)
+                        {
+                            AddNodes(child.FirstChild, ref nodes);
+                        }
+                        else
+                        {
+                            if (child.InnerHtml.Trim().Length != 0) nodes.Add(child);
+                        }
                     }
-                    else
-                    {
-                        if (child.InnerHtml.Trim().Length != 0) nodes.Add(child);
-                    }
+                    child = child.NextSibling;
                 }
-                child = child.NextSibling;
             }
+            catch (Exception e)
+            {
+
+            }
+            
         }
 
     }

@@ -24,6 +24,10 @@ using TranslationAssistant.Business;
 
 namespace Saffi.Translate
 {
+    enum Status
+    {
+        Success, Failure
+    }
     public static class AutoTranslateBlob
     {
         /// <summary>
@@ -41,13 +45,13 @@ namespace Saffi.Translate
         
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            
+            Status status = Status.Success;
+
+           
             string TranslatedContent = string.Empty;
             try
             {
                 log.LogInformation($"STARTED: AutoTranslateBlob function for blob Name:{name} of Size: {InputStream.Length} Bytes");
-
-               
 
                 OutputText.WriteLine("");
 
@@ -79,12 +83,11 @@ namespace Saffi.Translate
                     default:
                         break;
                 }
-                
-                
             }
             catch (Exception e)
             {
-                log.LogCritical("Exception: " + e.Message);
+                status = Status.Failure;
+                log.LogError("Exception: " + e.Message);
             }
             finally 
             {
@@ -92,10 +95,9 @@ namespace Saffi.Translate
                 await OutputText.WriteAsync(TranslatedContent);
                 OutputText.Close();
 
-                
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                log.LogInformation($"FINISHED: AutoTranslateBlob function for blob:{name} \n ExecutionTime: {Convert.ToString(elapsedMs)} Ms.");
+                log.LogInformation($"FINISHED with {status.ToString()}: AutoTranslateBlob function for blob:{name} \n ExecutionTime: {Convert.ToString(elapsedMs)} Ms.");
 
             }
 
