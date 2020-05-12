@@ -73,6 +73,7 @@ namespace TranslationAssistant.Business
 
                     try
                     {
+
                         //We might need to Rewite this using DurableFunctions
                         foreach (var node in nodes)
                         {
