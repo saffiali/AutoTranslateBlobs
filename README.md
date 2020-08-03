@@ -2,7 +2,7 @@
 This is an Azure Function to Auto Translate HTML and Text files once they arrive in an Azure Blob container. Then store the translated one in a different container.
 
 <p align="center">
-  <img src="AutoTranslateBlobs.png">
+  <img src="AutoTranslateBlobs.PNG">
 </p>
 
 # Supported formats
